@@ -3,11 +3,24 @@
 module Main where
 
 import Network.Wai
-import Network.Wai.Handler.Warp (run)
+import Network.Wai.Handler.Warp (run, Port)
 import Network.HTTP.Types
+import System.Environment (getEnvironment)
+import Data.List (lookup)
+import Data.Maybe
 
 main :: IO ()
-main = run 3000 app
+main = do
+  port <- getPort
+  run port app
+
+getPort :: IO Port
+getPort = getEnvironment >>= return . port'
+  where
+    port' = fromMaybe defaultPort . fmap read . lookup "PORT"
+
+defaultPort :: Port
+defaultPort = 3000
 
 app :: Application
 app request respond = respond $ case rawPathInfo request of
