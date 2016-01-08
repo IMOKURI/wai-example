@@ -12,22 +12,13 @@ main = run 3000 app
 app :: Application
 app request respond = respond $ case rawPathInfo request of
   "/"     -> index
-  "/raw/" -> plainIndex
   _       -> notFound
 
 index :: Response
-index = responseFile
-  status200
-  [("Content-Type", "text/html")]
-  "index.html"
-  Nothing
-
-plainIndex :: Response
-plainIndex = responseFile
+index = responseLBS
   status200
   [("Content-Type", "text/plain")]
-  "index.html"
-  Nothing
+  "Hello web!"
 
 notFound :: Response
 notFound = responseLBS
