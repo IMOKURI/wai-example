@@ -7,9 +7,7 @@ import Network.Wai.Handler.Warp (run)
 import Network.HTTP.Types
 
 main :: IO ()
-main = do
-  putStrLn "http://localhost:8080/"
-  run 8080 app
+main = run 3000 app
 
 app :: Application
 app request respond = respond $ case rawPathInfo request of
